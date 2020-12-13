@@ -20,7 +20,7 @@ def atbash_encode(text):
 #rot13
 def rot13_encode(text):
     word=[]
-    text = text.lower()
+
     for i in text:
         if i.isupper():
             c_index = ord(i) - ord("A")
@@ -28,7 +28,7 @@ def rot13_encode(text):
             q = chr(new_index + ord("A"))
             word.append(q)
             words = ''.join(word)
-        elif c ==' ':
+        elif i ==' ':
             word.append(' ')
             words = ''.join(word)
         else:
@@ -42,13 +42,12 @@ def rot13_encode(text):
 #caesar
 def caesar_encode(text,shift):
     word=[]
-    text = text.lower()
     for i in text:
         if i.isupper():
             c_index = ord(i) - ord("A")
             new_index = (c_index + shift) % 26
-            q = chr(new_index + ord("A"))
-            word.append(q)
+            s = chr(new_index + ord("A"))
+            word.append(s)
             words = ''.join(word)
         elif c ==' ':
             word.append(' ')
@@ -157,5 +156,5 @@ def polybius_encode(text):
     return words
 
 
-print(polybius_encode('ab cd'))
+print(rot13_encode('mlk'))
 
