@@ -68,7 +68,6 @@ def railfence_decode(text, key):
     dir_down = None
     row, col = 0, 0
 
-    # mark the places with '*'
     for i in range(len(text)):
         if row == 0:
             dir_down = True
@@ -92,9 +91,6 @@ def railfence_decode(text, key):
                 rail[i][j] = text[index]
                 index += 1
 
-    # now read the matrix in
-    # zig-zag manner to construct
-    # the resultant text
     result = []
     row, col = 0, 0
     for i in range(len(text)):
