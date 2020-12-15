@@ -23,8 +23,7 @@ def atbash_encode(text):
 
 # rot13
 def rot13_encode(text):
-    word = []
-    text = text.lower()
+    word=[]
     for i in text:
         if i.isupper():
             c_index = ord(i) - ord("A")
@@ -32,7 +31,7 @@ def rot13_encode(text):
             q = chr(new_index + ord("A"))
             word.append(q)
             words = ''.join(word)
-        elif c == ' ':
+        elif i ==' ':
             word.append(' ')
             words = ''.join(word)
         else:
@@ -43,17 +42,17 @@ def rot13_encode(text):
             words = ''.join(word)
     return words
 
-
 # caesar
 def caesar_encode(text, shift):
     word = []
     text = text.lower()
+
     for i in text:
         if i.isupper():
             c_index = ord(i) - ord("A")
             new_index = (c_index + shift) % 26
-            q = chr(new_index + ord("A"))
-            word.append(q)
+            s = chr(new_index + ord("A"))
+            word.append(s)
             words = ''.join(word)
         elif c == ' ':
             word.append(' ')
@@ -116,58 +115,6 @@ def baconian_encode(message):
             words += ' '
 
     return words
-
-
-# polybius
-def polybius_encode(text):
-    word = []
-    for t in text:
-        if t.isupper():
-            row = int((ord(t) - ord('a')) / 5) + 1
-            col = ((ord(t) - ord('a')) % 5) + 1
-
-            # if character is 'k'
-            if t == 'K':
-                row = row - 1
-                col = 5 - col + 1
-
-            # if character is greater than 'j'
-            elif ord(t) >= ord('J'):
-                if col == 1:
-                    col = 6
-                    row = row - 1
-
-                col = col - 1
-
-            word.append(str(row))
-            word.append(str(col))
-        elif t == ' ':
-            word.append(' ')
-        # lowercase
-        else:
-            row = int((ord(t) - ord('a')) / 5) + 1
-            col = ((ord(t) - ord('a')) % 5) + 1
-
-            # if character is 'k'
-            if t == 'k':
-                row = row - 1
-                col = 5 - col + 1
-
-            # if character is greater than 'j'
-            elif ord(t) >= ord('j'):
-                if col == 1:
-                    col = 6
-                    row = row - 1
-
-                col = col - 1
-
-            word.append(str(row))
-            word.append(str(col))
-    words = ''.join(word)
-    return words
-
-
-print(polybius_encode('ab cd'))
 
 
 # Simple substitution Cipher
