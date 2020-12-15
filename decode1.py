@@ -1,176 +1,9 @@
-# atbash cipher
-from test import generate_key
+###Simple substitution Cipher
+import string
+import sys
+import math
 
 
-def atbash_encode(text):
-    word = []
-    for c in text:
-        if c.isupper():
-            total = ord('A') + ord('Z')
-            s = chr(total - ord(c))
-            word.append(s)
-            words = ''.join(word)
-        elif c == ' ':
-            word.append(' ')
-            words = ''.join(word)
-        else:
-            t = ord('a') + ord('z')
-            q = chr(t - ord(c))
-            word.append(q)
-            words = ''.join(word)
-    return words
-
-
-# rot13
-def rot13_encode(text):
-    word = []
-    text = text.lower()
-    for i in text:
-        if i.isupper():
-            c_index = ord(i) - ord("A")
-            new_index = (c_index + 13) % 26
-            q = chr(new_index + ord("A"))
-            word.append(q)
-            words = ''.join(word)
-        elif c == ' ':
-            word.append(' ')
-            words = ''.join(word)
-        else:
-            c_index = ord(i) - ord("a")
-            new_index = (c_index + 13) % 26
-            q = chr(new_index + ord("a"))
-            word.append(q)
-            words = ''.join(word)
-    return words
-
-
-# caesar
-def caesar_encode(text, shift):
-    word = []
-    text = text.lower()
-    for i in text:
-        if i.isupper():
-            c_index = ord(i) - ord("A")
-            new_index = (c_index + shift) % 26
-            q = chr(new_index + ord("A"))
-            word.append(q)
-            words = ''.join(word)
-        elif c == ' ':
-            word.append(' ')
-            words = ''.join(word)
-        else:
-            c_index = ord(i) - ord("a")
-            new_index = (c_index + shift) % 26
-            q = chr(new_index + ord("a"))
-            word.append(q)
-            words = ''.join(word)
-
-    return words
-
-
-# affine
-def affine_encode(text, key):
-    # E = (a*x + b) % 26
-    return ''.join(
-        [chr(((key[0] * (ord(t) - ord('A')) + key[1]) % 26) + ord('A')) for t in text.upper().replace(' ', '')])
-
-
-# rail fence
-def railfence_encode(text, key):
-    rail = [['\n' for i in range(len(text))]
-            for j in range(key)]
-
-    dir_down = False
-    row, col = 0, 0
-
-    for i in range(len(text)):
-        if (row == 0) or (row == key - 1):
-            dir_down = not dir_down
-        rail[row][col] = text[i]
-        col += 1
-        if dir_down:
-            row += 1
-        else:
-            row -= 1
-    result = []
-    for i in range(key):
-        for j in range(len(text)):
-            if rail[i][j] != '\n':
-                result.append(rail[i][j])
-    return ("".join(result))
-
-
-# baconian
-def baconian_encode(message):
-    lookup = {'A': 'aaaaa', 'B': 'aaaab', 'C': 'aaaba', 'D': 'aaabb', 'E': 'aabaa',
-              'F': 'aabab', 'G': 'aabba', 'H': 'aabbb', 'I': 'abaaa', 'J': 'abaab',
-              'K': 'ababa', 'L': 'ababb', 'M': 'abbaa', 'N': 'abbab', 'O': 'abbba',
-              'P': 'abbbb', 'Q': 'baaaa', 'R': 'baaab', 'S': 'baaba', 'T': 'baabb',
-              'U': 'babaa', 'V': 'babab', 'W': 'babba', 'X': 'babbb', 'Y': 'bbaaa', 'Z': 'bbaab'}
-    words = ''
-    message = message.upper()
-    for letter in message:
-        if (letter != ' '):
-            words += lookup[letter]
-        else:
-            words += ' '
-
-    return words
-
-
-# polybius
-def polybius_encode(text):
-    word = []
-    for t in text:
-        if t.isupper():
-            row = int((ord(t) - ord('a')) / 5) + 1
-            col = ((ord(t) - ord('a')) % 5) + 1
-
-            # if character is 'k'
-            if t == 'K':
-                row = row - 1
-                col = 5 - col + 1
-
-            # if character is greater than 'j'
-            elif ord(t) >= ord('J'):
-                if col == 1:
-                    col = 6
-                    row = row - 1
-
-                col = col - 1
-
-            word.append(str(row))
-            word.append(str(col))
-        elif t == ' ':
-            word.append(' ')
-        # lowercase
-        else:
-            row = int((ord(t) - ord('a')) / 5) + 1
-            col = ((ord(t) - ord('a')) % 5) + 1
-
-            # if character is 'k'
-            if t == 'k':
-                row = row - 1
-                col = 5 - col + 1
-
-            # if character is greater than 'j'
-            elif ord(t) >= ord('j'):
-                if col == 1:
-                    col = 6
-                    row = row - 1
-
-                col = col - 1
-
-            word.append(str(row))
-            word.append(str(col))
-    words = ''.join(word)
-    return words
-
-
-print(polybius_encode('ab cd'))
-
-
-# Simple substitution Cipher
 def checkValidityOfKey(mykey):  ## Test condition for the key input
     keyli = list(mykey)
     masterli = list(string.ascii_lowercase)
@@ -187,6 +20,8 @@ def Simple_Substitution(text, key):
     checkValidityOfKey(key)
     charA = master
     charB = key
+    charA = charB
+    charB = charA
     for alpha in text:
         if alpha.lower() in charA:
             symIndex = charA.find(alpha.lower())
@@ -205,86 +40,103 @@ def Simple_Substitution(text, key):
     return words
 
 
-# Columnar_Transpositions Cipher.
-def Columnar_Transposition(text, key):
-    encrypted = " "
+# Columnar_Transposition cipher.
+def Columnar_Transposition_decode(text, key):
+    decrypted = " "
     key_index = 0
+    text_index = 0
     text_length = float(len(text))
     textli = list(text)
-    keyli = list(key)
+    keyli = sorted(list(key))
     no_col = len(key)
     no_row = int(math.ceil(text_length / no_col))
-    fill_null = int((no_col * no_row) - text_length)
-    textli.extend('_' * fill_null)
-    matrix = [textli[i:i + no_col] for i in range(0, len(textli), no_col)]
+    decryt_cipher = []
+    for _ in range(no_row):
+        decryt_cipher += [[None] * no_col]
     for _ in range(no_col):
         current_index = key.index(keyli[key_index])
-        encrypted = encrypted + ''.join([no_row[current_index] for no_row in matrix])
-        key_index = key_index + 1
-    return encrypted
+        for j in range(no_row):
+            decryt_cipher[j][current_index] = textli[text_index]
+            text_index += 1
+        key_index += 1
+    try:
+        decrypted = ''.join(sum(decryt_cipher, []))
+    except TypeError:
+        raise TypeError('This program cannot handle repeating words')
 
+    null_count = decrypted.count('_')
 
-# Autokey Cipher
-def Autokey(text, key):
-        key_new = generate_key(text, key)
-        encrypted = ""
-        text = text.lower()
-        keyli = list(key_new)
+    if null_count > 0:
+        return decrypted[: -null_count]
+    return decrypted
 
-        i = 0
-        for alpha in text:
-            if alpha == ' ':
-                encrypted += ' '
-            else:
-                x = (ord(alpha) - 2 * ord('a') + ord(keyli[i])) % 26
-                i += 1
-                encrypted += chr(x + ord('a'))
-        return encrypted
-
-def generate_key(text, key):
-        text = text.lower()
-        key = key.lower()
-        i = 0
-        while True:
-            if len(key) == len(text):
-                break
-            if text[i] == ' ':
-                i += 1
-            else:
-                key += text[i]
-                i += 1
-        return key
-
-##Beaufort cipher implementation
-def Beaufort(text, key):
+#Autokey cipher decoder
+def Autokey_decode(text, key):
     text1 = text.lower()
     text2 = "".join(text1.split())
     alphabet = string.ascii_lowercase
     ans = ""
     for i in range(len(text2)):
-        char = text2[i]
-        keychar = key[i % len(key)]
-        alphaIndex = alphabet.index(keychar)
-        alphaIndex -= alphabet.index(char)
-        alphaIndex %= len(alphabet)
-        enc = alphabet[alphaIndex]
+        m = text2[i]
+        if i < len(key):
+            k = key[i]
+        else:
+            k = ans[i - len(key)]
+        alphI = alphabet.index(m)
+        alphI += -1 * alphabet.index(k)
+        alphI = alphI % len(alphabet)
+        enc = alphabet[alphI]
         ans += enc
-
     return ans
 
-def Beaufort_encode(text,key):
-    encrypted = ''
+def Autokey_decode_org(text,key):
+    decrypted = ''
     j=0
-    beau_te = Beaufort(text,key)
+    auto_te = Autokey_decode(text,key)
     for i in text:
         if i == ' ':
-            encrypted += ' '
+            decrypted += ' '
         else:
-            encrypted += beau_te[j]
+            decrypted += auto_te[j]
             j += 1
-    return encrypted
+    print(decrypted)
+    return decrypted
 
-##Porta Cipher -
+Autokey_decode_org('LLG XIKFHR GXKMCX','secret')
+
+#Beaufort cipher
+def Beaufort_decode(text, key):
+    text1 = text.lower()
+    text2 = "".join(text1.split())
+    alphabet = string.ascii_lowercase
+    ans = ""
+    for i in range(len(text2)):
+        if len(key)<len(text):
+            sys.exit("Please give a string of lowercase letters which is of length of text given!!")
+        else:
+            char = text2[i]
+            keychar = key[i % len(key)]
+            alphaIndex = alphabet.index(keychar)
+            alphaIndex -= alphabet.index(char)
+            alphaIndex %= len(alphabet)
+            enc = alphabet[alphaIndex]
+            ans += enc
+    return ans
+
+def Beaufort_decode_org(text,key):
+    decrypted = ''
+    j=0
+    beau_te = Beaufort_decode(text,key)
+    for i in text:
+        if i == ' ':
+            decrypted += ' '
+        else:
+            decrypted += beau_te[j]
+            j += 1
+    return decrypted
+
+##Porta Cipher -........................................................................
+
 def Porta_key_generator(key):
     alphabet = {
         "A": [["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M"],
@@ -345,82 +197,78 @@ def Porta_key_generator(key):
         tab.append(alphabet[alpha])
     return tab
 
-
-def Porta_getPositions(tab, alpha):
+def Porta_getPositions(tab,alpha):
     row = -1
     if alpha in tab[0]:
-        row = 0
+        row=0
     elif alpha in tab[1]:
-        row = 1
+        row=1
 
     if row != -1:
-        return (row, tab[row].index(alpha))
+        return(row,tab[row].index(alpha))
     else:
-        return (None, None)
+        return(None,None)
 
-
-def Porta_getOpponent(tab, alpha):
-    row, col = Porta_getPositions(tab, alpha.upper())
-    if row == 1:
+def Porta_getOpponent(tab,alpha):
+    row,col = Porta_getPositions(tab,alpha.upper())
+    if row ==1:
         return tab[0][col]
-    elif row == 0:
+    elif row ==0:
         return tab[1][col]
     else:
         return alpha
 
-
-def Porta_encode(text, key):
-    encrypted = ''
+def Porta_decode(text, key):
+    decrypted = ''
     count = 0
     tab = Porta_key_generator(key)
     for alpha in text.upper():
-        encrypted += Porta_getOpponent(tab[count], alpha)
-        count = (count + 1) % len(tab)
-    return encrypted
+        decrypted += Porta_getOpponent(tab[count],alpha)
+        count = (count + 1)%len(tab)
+    return decrypted
 
-##Running_key_cipher......................
-def Running_key_encode(text,key):
-    alphabet = [
+## Running key cipher.
+def Running_key_decode(text,key):
+    alphabet =  [
         None, 'a', 'b',
         'c', 'd', 'e', 'f', 'g', 'h',
         'i', 'j', 'k', 'l', 'm', 'n',
         'o', 'p', 'q', 'r', 's', 't',
         'u', 'v', 'w', 'x', 'y', 'z']
-
-    encrypted = ''
+    decrypted = ''
     for i,j in enumerate(text):
         if j == ' ':
-            encrypted += ' '
+            decrypted += ' '
         else:
             temp = ''
             key_chars = key[i%len(key)]
             key_chars_index = alphabet.index(key_chars)
             text_chars_index = alphabet.index(j)
-            encrypted_char_index = text_chars_index - key_chars_index
-            encrypted_char = alphabet[
+            decrypted_char_index = text_chars_index - key_chars_index
+            decrypted_char = alphabet[
                 text_chars_index + 26-key_chars_index
                 if text_chars_index<=key_chars_index else text_chars_index - key_chars_index
             ]
 
-            encrypted += encrypted_char
+            decrypted += decrypted_char
             temp += (
                 "key char index: %s - %s\n"
                 "text char index: %s - %s\n"
                 "Output: %s - %s\n")%(
                 key_chars,key_chars_index,alphabet
-                ,text_chars_index,encrypted_char,encrypted_char_index
+                ,text_chars_index,decrypted_char,decrypted_char_index
             )
-    return encrypted
+    return decrypted
 
-def Running_key_encode_org(text,key):
-    encrypted_org =''
+def Running_key_decode_org(text,key):
+    decrypted_org =''
     for alpha in text.split(' '):
-        encrypted_org += Running_key_encode(text,key)
-        encrypted_org += ' '
-    return encrypted_org
+        decrypted_org += Running_key_decode(text,key)
+        decrypted_org += ' '
+    return decrypted_org
 
-### Kamasutra cipher.........................................
-def Kamasutra_encode(text,key1):
+### Kamasutra Cipher --------------------------------
+def Kamasutra_decode(text,key1):
     global Kamasutra_Tab
     key = key1.upper()
     key_li_temp = list(key)
@@ -434,12 +282,15 @@ def Kamasutra_encode(text,key1):
     li2=key_li[key_split:]
     table=[li1,li2]
     Kamasutra_Tab = table
-    encrypted = ''
+    decrypted = ''
     for letter in text:
         if str.isalpha(letter):
             letter = Kamasutra_getOpponent(table,letter)
-        encrypted += letter
-    return encrypted
+        decrypted += letter
+    print(decrypted)
+    print(table)
+    print(len(key))
+    return decrypted
 
 def Kamasutra_getPosition(Kamasutra_Tab,letter):
     row = -1
@@ -474,6 +325,20 @@ def Kamasutra_getOpponent(Kamasutra_Tab,letter):
         return Kamasutra_lower(Kamasutra_Tab[1][col],sign)
     else:
         return letter
+
+Kamasutra_decode('Igllz Tawdmd','ZXCVBNMASDFGHJKLQWERTYUIOP')
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
