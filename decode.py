@@ -140,3 +140,16 @@ def baconian_decode(message):
             break
     return dec
 
+#affine
+def affine_decode(data,a,b):
+    MOD = 128
+    ans = []
+    for i in data:
+        for j in range(MOD):
+            if (a*j)%MOD==1:
+                a_inverse=j
+            ans.append(chr((a_inverse*(ord(i)+MOD-b))%MOD))
+    word = ''.join(ans)
+    return word
+
+print(affine_decode('hello',2,2))
