@@ -99,10 +99,8 @@ def Autokey_decode_org(text,key):
         else:
             decrypted += auto_te[j]
             j += 1
-    print(decrypted)
     return decrypted
 
-Autokey_decode_org('LLG XIKFHR GXKMCX','secret')
 
 #Beaufort cipher
 def Beaufort_decode(text, key):
@@ -287,9 +285,6 @@ def Kamasutra_decode(text,key1):
         if str.isalpha(letter):
             letter = Kamasutra_getOpponent(table,letter)
         decrypted += letter
-    print(decrypted)
-    print(table)
-    print(len(key))
     return decrypted
 
 def Kamasutra_getPosition(Kamasutra_Tab,letter):

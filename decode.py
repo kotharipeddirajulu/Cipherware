@@ -140,6 +140,7 @@ def baconian_decode(message):
 def affine_decode(data,a,b):
     MOD = 128
     ans = []
+    global a_inverse
     for i in data:
         for j in range(MOD):
             if (a*j)%MOD==1:
