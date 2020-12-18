@@ -1,5 +1,4 @@
 # atbash cipher
-from test import generate_key
 
 
 def atbash_encode(text):
@@ -421,6 +420,8 @@ def Kamasutra_getOpponent(Kamasutra_Tab,letter):
         return Kamasutra_lower(Kamasutra_Tab[1][col],sign)
     else:
         return letter
+
+
 
 
 
