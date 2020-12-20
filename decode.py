@@ -68,7 +68,6 @@ def railfence_decode(text, key):
     dir_down = None
     row, col = 0, 0
 
-    # mark the places with '*'
     for i in range(len(text)):
         if row == 0:
             dir_down = True
@@ -92,9 +91,6 @@ def railfence_decode(text, key):
                 rail[i][j] = text[index]
                 index += 1
 
-    # now read the matrix in
-    # zig-zag manner to construct
-    # the resultant text
     result = []
     row, col = 0, 0
     for i in range(len(text)):
@@ -142,6 +138,7 @@ def baconian_decode(message):
 
 #affine
 def affine_decode(data,a,b):
+<<<<<<< HEAD
     key = [a,b]
     cipher = data
     word=[]
@@ -170,3 +167,16 @@ def affine_decode(data,a,b):
 
 
 
+=======
+    MOD = 128
+    ans = []
+    for i in data:
+        for j in range(MOD):
+            if (a*j)%MOD==1:
+                a_inverse=j
+            ans.append(chr((a_inverse*(ord(i)+MOD-b))%MOD))
+    word = ''.join(ans)
+    return word
+
+print(affine_decode('hello',2,2))
+>>>>>>> 1268a989a36b442a8c1bd1a1f7008be971ab19e5
