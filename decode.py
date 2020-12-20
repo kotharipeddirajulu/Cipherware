@@ -138,7 +138,7 @@ def baconian_decode(message):
 
 #affine
 def affine_decode(data,a,b):
-<<<<<<< HEAD
+
     key = [a,b]
     cipher = data
     word=[]
@@ -165,18 +165,3 @@ def affine_decode(data,a,b):
         words = ''.join(word)
     return words
 
-
-
-=======
-    MOD = 128
-    ans = []
-    for i in data:
-        for j in range(MOD):
-            if (a*j)%MOD==1:
-                a_inverse=j
-            ans.append(chr((a_inverse*(ord(i)+MOD-b))%MOD))
-    word = ''.join(ans)
-    return word
-
-print(affine_decode('hello',2,2))
->>>>>>> 1268a989a36b442a8c1bd1a1f7008be971ab19e5
