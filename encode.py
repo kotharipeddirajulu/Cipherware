@@ -1,6 +1,7 @@
 # atbash cipher
-from test import generate_key
-
+import string
+import sys
+import math
 
 def atbash_encode(text):
     word = []
@@ -54,7 +55,7 @@ def caesar_encode(text, shift):
             s = chr(new_index + ord("A"))
             word.append(s)
             words = ''.join(word)
-        elif c == ' ':
+        elif c_index == ' ':
             word.append(' ')
             words = ''.join(word)
         else:
@@ -127,7 +128,7 @@ def checkValidityOfKey(mykey):  ## Test condition for the key input
         sys.exit("Please give a string of lowercase letters which consists of all 26 alphabets surely!!")
 
 
-def Simple_Substitution(text, key):
+def Simple_Substitution_encode(text, key):
     global words, symIndex
     word = []
     master = string.ascii_lowercase
@@ -153,7 +154,7 @@ def Simple_Substitution(text, key):
 
 
 # Columnar_Transpositions Cipher.
-def Columnar_Transposition(text, key):
+def Columnar_Transposition_encode(text, key):
     encrypted = " "
     key_index = 0
     text_length = float(len(text))
@@ -172,7 +173,7 @@ def Columnar_Transposition(text, key):
 
 
 # Autokey Cipher
-def Autokey(text, key):
+def Autokey_encode(text, key):
         key_new = generate_key(text, key)
         encrypted = ""
         text = text.lower()
@@ -421,6 +422,7 @@ def Kamasutra_getOpponent(Kamasutra_Tab,letter):
         return Kamasutra_lower(Kamasutra_Tab[1][col],sign)
     else:
         return letter
+
 
 
 
