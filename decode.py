@@ -166,5 +166,3 @@ def affine_decode(data,a,b):
     return words
 
 
-
-
